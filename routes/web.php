@@ -57,7 +57,7 @@ Route::group(['middleware' => ['auth:web'], 'prefix' => 'mahasiswa'],
     Route::get('/indexusulan', 'UsulanController@index');
     Route::get('/indexusulan/create', ['as' => 'usulan.create', 'uses' => 'UsulanController@create']);
     Route::get('/editusulan/{id}', 'UsulanController@edit');
-    Route::delete('/indexusulan/{id}', ['as' => 'usulan.destroy', 'uses' => 'LaporanAkhirController@destroy']);
+    // Route::delete('/indexusulan/{id}', ['as' => 'usulan.destroy', 'uses' => 'LaporanAkhirController@destroy']);
 
     Route::put('/editlaporanpkl/{id_laporan}', 'LaporanAkhirController@update');
     Route::get('/ubah_password', 'MahasiswaController@showchangePassword');

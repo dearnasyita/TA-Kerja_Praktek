@@ -71,26 +71,20 @@ class dashboardController extends Controller
 
     public function kelompokCount()
     {
-        
         $userId = Auth::id();
-    
         $idMahasiswa = Mahasiswa::select('id_mahasiswa')
                                 ->where('id_users', $userId)->first();
-        
         $idKelompok = DetailKelompok::join('kelompok','kelompok_detail.id_kelompok','kelompok.id_kelompok')
-                                ->select('kelompok_detail.id_kelompok')
+                                ->select('kelompok_detail.id_kelompok', 'kelompok_detail.isDeleted')
                                 ->where('kelompok.tahap', '!=', 'ditolak')
+                                ->orderBy('id_kelompok', 'desc')
                                 ->where('kelompok_detail.id_mahasiswa', $idMahasiswa->id_mahasiswa)->first();
-
-
-        if(!$idKelompok&&empty($idKelompok)){
+        if(!$idKelompok&&empty($idKelompok) || $idKelompok->isDeleted == 1 ){
             return response()->json([
             'jumlah' => 0,
             'message' => 'success',
             ]);
-        }
-                               
-        else{
+        }else{
         $data = Kelompok::join('kelompok_detail', 'kelompok.id_kelompok', 'kelompok_detail.id_kelompok')
                             ->where('kelompok_detail.id_kelompok', $idKelompok->id_kelompok)
                             ->where('kelompok_detail.isDeleted', '!=', '1')

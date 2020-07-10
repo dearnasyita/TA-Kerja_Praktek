@@ -32,11 +32,13 @@ class LaporanAkhirController extends Controller
         $idMahasiswa = Mahasiswa::select('id_mahasiswa')
                                 ->where('id_users', $userId)->first();
         
-        $idKelompok = DetailKelompok::select('kelompok_detail.id_kelompok')                                         
+        $idKelompok = DetailKelompok::select('kelompok_detail.id_kelompok')
+                                ->where('kelompok_detail.isDeleted', '=', '0')                                    
                                 ->where('kelompok_detail.id_mahasiswa', $idMahasiswa->id_mahasiswa)
                                 ->orderBy('kelompok_detail.id_kelompok_detail','desc')->first();   
 
-        $status = DetailKelompok::select('kelompok_detail.status_keanggotaan')                                         
+        $status = DetailKelompok::select('kelompok_detail.status_keanggotaan')  
+                                ->orderBy('id_kelompok', 'desc')                                    
                                 ->where('kelompok_detail.id_mahasiswa', $idMahasiswa->id_mahasiswa)->first(); 
 
         $statusLaporan = @LaporanAkhir::leftJoin('kelompok', 'laporan.id_kelompok', '=', 'kelompok.id_kelompok')
@@ -65,6 +67,13 @@ class LaporanAkhirController extends Controller
                         $btn .='<button type="button" name="show" id="'.$laporanakhir->id_laporan.'" class="btn btn-warning btn-sm detaillaporanakhir" ><i class="fas fa-eye"></i></button>';
                         return $btn;
                     }
+                    // else{
+                    //     $btn = '<a href="#" class="btn btn-info btn-sm disabled"><i class="fas fa-edit"></i></a>';
+                    //     $btn .= '&nbsp;&nbsp;';
+                    //     $btn .='<button type="button" name="show" id="'.$laporanakhir->id_laporan.'" class="btn btn-warning btn-sm detaillaporanakhir" ><i class="fas fa-eye"></i></button>';
+                    //     return $btn;
+                    // }
+
                     return;
                 })
                 ->rawColumns(['action'])
@@ -106,18 +115,20 @@ class LaporanAkhirController extends Controller
         
         $this->validate($request, [
             'judul' => 'required|string|max:100',
-            'berkas' => 'mimes:doc,pdf,docx,zip',
+            'berkas' => 'required|mimes:doc,pdf,docx,zip|max:10240',
             
         ],
         [
             'judul.required' => 'Judul tidak boleh kosong !',
             'judul.max' => 'Judul terlalu panjang !',
+            'berkas.max' => 'File terlalu besar !',
+            'berkas.required' => 'Berkas tidak boleh kosong !'
             ]);
 
         $berkas= null;
         if($request->hasFile('berkas')){
             $files=$request->file('berkas');
-            $berkas=str_slug($request->judul) . '.' . $files->getClientOriginalExtension();
+            $berkas=str_slug('Laporan Kelompok-'.$request->id_kelompok) . '.' . $files->getClientOriginalExtension();
             $files->move(public_path('uploads/laporanakhir'),$berkas);
         }
 
@@ -177,7 +188,7 @@ class LaporanAkhirController extends Controller
     public function update(Request $request, $id_laporan)
         {$this->validate($request, [
             'judul' => 'required|string|max:100',
-            'berkas' => 'mimes:doc,pdf,docx,zip',
+            'berkas' => 'mimes:doc,pdf,docx,zip|max:10240',
         ],
         [
             'judul.required' => 'Judul tidak boleh kosong !',
@@ -190,7 +201,7 @@ class LaporanAkhirController extends Controller
         if ($request->hasFile('berkas')) {
             !empty($berkas) ? File::delete(public_path('uploads/laporanakhir' . $berkas)):null;
             $files=$request->file('berkas');
-            $berkas=str_slug($request->judul) . '.' . $files->getClientOriginalExtension();
+            $berkas=str_slug('Laporan Kelompok-'.$request->id_kelompok) . '.' . $files->getClientOriginalExtension();
             $files->move(public_path('uploads/laporanakhir'),$berkas);
         }
 

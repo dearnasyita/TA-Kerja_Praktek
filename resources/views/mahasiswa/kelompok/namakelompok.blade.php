@@ -34,7 +34,7 @@
                   <div class="col-sm-12">
                     <a  href="/indexkelompok/" class="btn btn-info float-right btn-sm" ><i class="fas fa-arrow-right"> </i> Cek Riwayat Kelompok </a> <br><br>
                   </div>
-                  @if(@$status->tahap!="diproses" && @$status->tahap!="diterima")
+                  @if(@$status->tahap!="diproses" && @$status->tahap!="diterima" || $idKelompok->isDeleted == 1)
                   <label for="nama_kelompok" class="col-sm-2 col-form-label">Nama Kelompok <font color="red">*</font> </label>
                   <div class="col-sm-10">
                   <input type="text" class="form-control" id="nama_kelompok" name="nama_kelompok" >
@@ -46,7 +46,7 @@
                   </div>
                 </div>
               </div>
-            @if(@$status->tahap!="diproses" && @$status->tahap!="diterima")
+            @if(@$status->tahap!="diproses" && @$status->tahap!="diterima" || $idKelompok->isDeleted == 1)
               <div class="col-sm-12">
                 <div class="d-flex flex-row justify-content-end">
                   <button type="submit" class="btn btn-primary float-right">Create</button>

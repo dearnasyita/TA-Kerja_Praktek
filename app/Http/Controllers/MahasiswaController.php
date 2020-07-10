@@ -159,21 +159,6 @@ class MahasiswaController extends Controller
                 'pengalaman' => 'required|string|max:1000',
                 'cv' => 'mimes:doc,pdf,docx,zip',
                 
-        ],
-            
-                [
-                'nama.required' => 'Nama tidak boleh kosong !',
-                'nim.required' => 'NIM tidak boleh kosong !',
-                'email.required' => 'Email tidak boleh kosong !',
-                'no_hp.required' => 'No Hp tidak boleh kosong !',
-                'alamat.required' => 'Alamat tidak boleh kosong !',
-                'alamat.max' => 'Alamat terlalu panjang  !',
-                'kemampuan.required' => 'Kemampuan tidak boleh kosong !',
-                'kemampuan.max' => 'Kemampuan terlalu panjang !',
-                'pengalaman.required' => 'Pengalaman tidak boleh kosong !',
-                'pengalaman.max' => 'Pengalaman terlalu panjang !',
-                
-                
         ]);
         
         $data = Mahasiswa::findOrFail($id_mahasiswa);
@@ -199,14 +184,16 @@ class MahasiswaController extends Controller
         ]);
         $data->save();
        
-        return redirect('mahasiswa/profile')->with('alert-success','Avatar has been changed!');
+        return redirect('mahasiswa/profile');
     }
 
 
     
     public function updateAvatar(Request $request, $id_mahasiswa){
         $this->validate($request, [
-            'foto' => 'nullable|image|mimes:jpg,png,jpeg',
+            'foto' => 'nullable|image|mimes:jpg,png,jpeg|max:1024',
+        ],[
+            
         ]);
 
         $data = Mahasiswa::findOrFail($id_mahasiswa);

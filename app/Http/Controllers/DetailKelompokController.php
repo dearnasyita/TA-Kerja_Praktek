@@ -175,7 +175,8 @@ class DetailKelompokController extends Controller
                                     ->first();
 
         $statusKeanggotaan = @DetailKelompok::select('kelompok_detail.status_keanggotaan')
-                                ->where('kelompok_detail.id_mahasiswa', $idMahasiswa->id_mahasiswa)->first(); 
+                                ->where('kelompok_detail.id_mahasiswa', $idMahasiswa->id_mahasiswa)
+                                ->orderBy('id_kelompok', 'desc')->first(); 
           
         $anggota = Mahasiswa::get();
         if(request()->ajax()){
@@ -193,11 +194,12 @@ class DetailKelompokController extends Controller
             
             return datatables()->of($data)->addIndexColumn()
                 ->addColumn('action', function ($data){
-                    if($data != null && @$statusKeanggotaan->status_keanggotaan == "Ketua"){
-                        
+                    
+                    if($data != null ){
                     $btn = '<button type="button" name="delete" id="' . $data->id_kelompok_detail . '" class="btn btn-danger btn-sm deleteAnggota "><i class="fas fa-trash"></i></button>';
                    return $btn; 
                 }
+            
                 return;
                 })
                 ->rawColumns(['action'])

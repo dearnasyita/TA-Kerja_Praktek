@@ -31,7 +31,7 @@
                     <div class="card-body ">
                         <div class="col-sm-12">
 
-                            @if ($status!=null && $status->status_keanggotaan == 'Ketua' && ($statusUsulan==null || @$statusUsulan->status=="ditolak") && ($statusLamaran==null || @$statusLamaran->status=="ditolak"))
+                            @if ($statusKeanggotaan!=null && @$statusKeanggotaan->status_keanggotaan == 'Ketua' && ($statusUsulan==null || @$statusUsulan->status=="ditolak") && ($statusLamaran==null || @$statusLamaran->status=="ditolak"))
                                 <a href="{{route('usulan.create')}}" class="btn btn-success float-right btn-sm"><i
                                         class="fas fa-plus"></i> Tambah Usulan </a> <br><br>
                             @else

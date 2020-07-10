@@ -25,13 +25,14 @@ class NilaiController extends Controller
 
         $userId = Auth::id();
         
-        // Mengambil id_mahasiswa yang sesuai dengan id yang login sekarang
         $idMahasiswa = Mahasiswa::select('id_mahasiswa')
                                 ->where('id_users', $userId)->first();
         
         $idKelompok = DetailKelompok::join('kelompok','kelompok_detail.id_kelompok','kelompok.id_kelompok')
                                 ->select('kelompok_detail.id_kelompok', 'kelompok.nama_kelompok')
+                                ->where('kelompok_detail.isDeleted', '=', '0')
                                 ->where('kelompok.tahap', '!=', 'ditolak')
+                                ->orderBy('id_kelompok', 'desc')
                                 ->where('kelompok_detail.id_mahasiswa', $idMahasiswa->id_mahasiswa)->first();
         
         $data = [];
@@ -45,7 +46,7 @@ class NilaiController extends Controller
                                     ->get();
                         }
 
-       return view('mahasiswa.penilaian.indexpenilaian',compact('data'));
+       return view('mahasiswa.penilaian.indexpenilaian',compact('data','userId'));
     }
 
     
@@ -65,25 +66,7 @@ class NilaiController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    { 
-        $periode=Periode::where(['status'=>'open'])->first();
-        $userId = Auth::id();
-
-        foreach($request->id_aspek_penilaian as $key => $value)
-        {
-            $model = new Nilai;
-            $model->id_aspek_penilaian = $value;
-            $model->nilai = $request->nilai[$key];
-            $model->id_periode = $periode->id_periode;
-            $model->id_kelompok_penilai=$request->id_kelompok_penilai;
-            $model->id_mahasiswa = $request->id_mahasiswa;
-            $model->created_by= $request->created_by;
-            $model->save();
-        
-    }
-        return response()->json(['message' => 'Nilai added successfully.']);
-    }
+    
 
     /**
      * Display the specified resource.
@@ -106,6 +89,26 @@ class NilaiController extends Controller
         return view('mahasiswa.penilaian.formnilai', compact('anggota','userId'));
     }
 
+    public function store(Request $request)
+    { 
+        $periode=Periode::where(['status'=>'open'])->first();
+        $userId = Auth::id();
+
+        foreach($request->id_aspek_penilaian as $key => $value)
+        {
+            $model = new Nilai;
+            $model->id_aspek_penilaian = $value;
+            $model->nilai = $request->nilai[$key];
+            $model->id_periode = $periode->id_periode;
+            $model->id_kelompok_penilai=$request->id_kelompok_penilai;
+            $model->id_mahasiswa = $request->id_mahasiswa;
+            $model->created_by= $request->created_by;
+            $model->save();
+        
+    }
+
+        return response()->json(['message' => 'Nilai added successfully.']);
+    }
     /**
      * Update the specified resource in storage.
      *

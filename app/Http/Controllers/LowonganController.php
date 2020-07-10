@@ -32,7 +32,8 @@ class LowonganController extends Controller
 
 
          $idKelompok = DetailKelompok::select('kelompok_detail.id_kelompok')
-            ->where('kelompok_detail.id_mahasiswa', $idMahasiswa->id_mahasiswa)->first();
+            ->where('kelompok_detail.id_mahasiswa', $idMahasiswa->id_mahasiswa)
+            ->orderBy('id_kelompok', 'desc')->first();
 
          $lowongan = Lowongan::get();
         if(request()->ajax()){
@@ -120,6 +121,7 @@ class LowonganController extends Controller
 
         $status = DetailKelompok::select('kelompok_detail.status_keanggotaan')
         ->where('kelompok_detail.id_mahasiswa', $idMahasiswa->id_mahasiswa)
+        ->orderBy('id_kelompok', 'desc')
         ->first();
         
         $statusUsulan = @Usulan::leftJoin('kelompok', 'usulan.id_kelompok', '=', 'kelompok.id_kelompok')

@@ -113,37 +113,37 @@
 								</div>
 								<div class="col-md">
 									<div class="form-group text-center">
-										<input style="text-align:center" type="number" min="1" max="5" class="form-control required" id="skill"  name="nilai[]" value="">
-										<input style="text-align:center" type="hidden" name="id_aspek_penilaian[]" value="1">
+										<input style="text-align:center" type="number" min="1" max="5" class="form-control " id="skill"  name="nilai[]" value="" required>
+										<input style="text-align:center" type="hidden" name="id_aspek_penilaian[]" value="1" >
 									</div>
 								</div>
 								<div class="col-md">
 									<div class="form-group text-center">
-										<input style="text-align:center" type="number" min="1" max="5" class="form-control required" id="kerapihan"  name="nilai[]" value="">
+										<input style="text-align:center" type="number" min="1" max="5" class="form-control required" id="kerapihan"  name="nilai[]" value="" required>
 										<input style="text-align:center" type="hidden" name="id_aspek_penilaian[]" value="5">
 									</div>
 								</div>
 								<div class="col-md">
 									<div class="form-group text-center">
-										<input style="text-align:center" type="number" min="1" max="5" class="form-control required" id="sikap"  name="nilai[]" value="">
+										<input style="text-align:center" type="number" min="1" max="5" class="form-control required" id="sikap"  name="nilai[]" value="" required>
 										<input style="text-align:center" type="hidden" name="id_aspek_penilaian[]" value="3">
 									</div>
 								</div>
 								<div class="col-md">
 									<div class="form-group text-center">
-										<input style="text-align:center" type="number" min="1" max="5" class="form-control required" id="keaktifan"  name="nilai[]" value="">
+										<input style="text-align:center" type="number" min="1" max="5" class="form-control required" id="keaktifan"  name="nilai[]" value=""required>
 										<input style="text-align:center" type="hidden" name="id_aspek_penilaian[]" value="2">
 									</div>
 								</div>
 								<div class="col-md">
 									<div class="form-group text-center">
-										<input style="text-align:center" type="number" min="1" max="5" class="form-control required" id="perhatian" name="nilai[]" value="">
+										<input style="text-align:center" type="number" min="1" max="5" class="form-control required" id="perhatian" name="nilai[]" value=""required>
 										<input style="text-align:center" type="hidden" name="id_aspek_penilaian[]" value="6">
 									</div>
 								</div>
 								<div class="col-md">
 									<div class="form-group text-center">
-										<input style="text-align:center" type="number" min="1" max="5" class="form-control required" id="kehadiran"  name="nilai[]" value="">
+										<input style="text-align:center" type="number" min="1" max="5" class="form-control required" id="kehadiran"  name="nilai[]" value="" required>
 										<input style="text-align:center" type="hidden" name="id_aspek_penilaian[]" value="7">
 									</div>
 								</div>

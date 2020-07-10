@@ -38,28 +38,28 @@
                                     <div class="form-group row">
                                         <label for="nama_instansi" class="col-sm-3 col-form-label">Nama Instansi <font color="red">*</font></label>
                                         <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="nama_instansi" name="nama_instansi" required>
+                                        <input type="text" class="form-control" id="nama_instansi" name="nama_instansi" >
                                         </div>
                                     </div>
 
                                     <div class="form-group row">
                                         <label for="website_instansi" class="col-sm-3 col-form-label">Website  <font color="red">*</font></label>
                                         <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="website_instansi" name="website_instansi" required>
+                                        <input type="text" class="form-control" id="website_instansi" name="website_instansi" >
                                         </div>
                                     </div>
 
                                     <div class="form-group row">
                                         <label for="alamat_instansi" class="col-sm-3 col-form-label">Alamat  <font color="red">*</font></label>
                                         <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="alamat_instansi" name="alamat_instansi" required>
+                                        <input type="text" class="form-control" id="alamat_instansi" name="alamat_instansi" >
                                         </div>
                                     </div>
 
                                     <div class="form-group row">
                                       <label for="jobdesk" class="col-sm-3 col-form-label">Jobdesk  <font color="red">*</font></label>
                                         <div class="col-sm-9">
-                                          <textarea type="text" class="form-control" id="jobdesk" name="jobdesk" rows="5" maxlength="1000" placeholder="Penjelasan singkat jobdesk saat kerja praktik "  required></textarea>
+                                          <textarea type="text" class="form-control" id="jobdesk" name="jobdesk" rows="5" maxlength="1000" placeholder="Penjelasan singkat jobdesk saat kerja praktik " ></textarea>
                                           <p class="text-muted"><small><i>*Pisahkan dengan koma, Max 1000 karakter</i></small></p>
                                         </div>
                                     </div>
@@ -67,7 +67,7 @@
                                     <div class="form-group row">
                                       <label for="deskripsi_instansi" class="col-sm-3 col-form-label">Deskripsi  <font color="red">*</font></label>
                                         <div class="col-sm-9">
-                                          <textarea type="text" class="form-control" id="deskripsi_instansi" name="deskripsi_instansi" rows="5" maxlength="1000" placeholder="Penjelasan singkat tentang instansi"  required></textarea>
+                                          <textarea type="text" class="form-control" id="deskripsi_instansi" name="deskripsi_instansi" rows="5" maxlength="1000" placeholder="Penjelasan singkat tentang instansi"></textarea>
                                           <p class="text-muted"><small><i>*Pisahkan dengan koma, Max 1000 karakter</i></small></p>
                                         </div>
                                     </div>
@@ -139,7 +139,6 @@
             {
               $.each(xhr.responseJSON.errors, function (key, item) 
               {
-                // $("#errors").append("<li class='alert alert-danger'>"+item+"</li>")
                 toastr.options.closeButton = true;
                 toastr.options.closeMethod = 'fadeOut';
                 toastr.options.closeDuration = 100;

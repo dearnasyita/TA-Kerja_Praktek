@@ -22,19 +22,18 @@ class KelompokController extends Controller
 
     public function datamahasiswa2()
     {
-        // Get id user from Auth
         $userId = Auth::id();
                 
-        // Mengambil id_mahasiswa yang sesuai dengan id yang login sekarang
         $idMahasiswa = Mahasiswa::select('id_mahasiswa')
                                 ->where('mahasiswa.id_users', $userId)->first();
     
-        $idKelompok = DetailKelompok::select('kelompok_detail.id_kelompok')
+        $idKelompok = DetailKelompok::select('kelompok_detail.*' )
                                     ->where('kelompok_detail.id_mahasiswa', $idMahasiswa->id_mahasiswa)
                                     ->orderBy('id_kelompok', 'desc')->first();
 
         
         $status = @Kelompok::select('kelompok.tahap')->where('id_kelompok', $idKelompok->id_kelompok)->first();
+
 
         $periode = Periode::select('id_periode')
                             ->where('status', 'open')->first();
@@ -45,10 +44,7 @@ class KelompokController extends Controller
 
     public function datamahasiswa()
     {
-        // Get id user from Auth
-        $userId = Auth::id();
-                
-        // Mengambil id_mahasiswa yang sesuai dengan id yang login sekarang
+        $userId = Auth::id();                
         $idMahasiswa = Mahasiswa::select('id_mahasiswa')
                                 ->where('mahasiswa.id_users', $userId)->first();
                                 
@@ -60,11 +56,10 @@ class KelompokController extends Controller
         $periode = Periode::select('id_periode')
                             ->where('status', 'open')->first();
 
-        
-        
         $data1 = \DB::table('mahasiswa')
         ->join('kelompok_detail', 'kelompok_detail.id_mahasiswa', '=', 'mahasiswa.id_mahasiswa')
         ->where('kelompok_detail.status_join', '!=', 'ditolak')
+        ->where('kelompok_detail.isDeleted', "=", "0")
         ->select('mahasiswa.id_mahasiswa')
         ->get();
         $mahasiswa_memiliki_kelompok = $data1->pluck('id_mahasiswa');  
@@ -94,7 +89,7 @@ class KelompokController extends Controller
         ->whereNotIn('mahasiswa.id_mahasiswa', $mahasiswa_memiliki_kelompok)
         ->whereNotIn('mahasiswa.id_mahasiswa', $mahasiswa_menjadi_ketua)
         ->whereNotIn('mahasiswa.id_mahasiswa', $mahasiswa_terinvite_users)
-        ->select('mahasiswa.id_mahasiswa', 'mahasiswa.nama', 'mahasiswa.nim', 'mahasiswa.foto')
+        ->select('mahasiswa.id_mahasiswa', 'mahasiswa.nama', 'mahasiswa.nim')
         ->get();
 
         return view('mahasiswa.kelompok.buatkelompok', compact('userId','data','mahasiswa_tersedia', 'idMahasiswa', 'idKelompok'));
@@ -124,20 +119,18 @@ class KelompokController extends Controller
         $periode = Periode::select('id_periode')
                         ->where('status', 'open')->first();
 
-
         $this->validate($request, [
             'nama_kelompok' => 'required|string|max:100',
         ],
-        [
-            'nama_kelompok.required' => 'Nama Kelompok can not be empty !',
-            
-    ]);
+        [   
+            'nama_kelompok.required' => 'Nama Kelompok tidak boleh kosong !',
+            'nama_kelompok.max' => 'Nama Kelompok terlalu panjang !'
+        ]);
+
         $data = Kelompok::create([
             'nama_kelompok' => $request->nama_kelompok,
             'id_periode' => $periode->id_periode,
-            'created_by' => $request->created_by,
-           
-            
+            'created_by' => $request->created_by,    
         ]);
         
 
@@ -147,7 +140,6 @@ class KelompokController extends Controller
             'status_keanggotaan' => 'Ketua',
             'status_join' => 'create',
             'created_by' => $request->created_by,
-            
         ]);
 
         $data->save();
@@ -180,16 +172,17 @@ class KelompokController extends Controller
          $userId = Auth::id();
          $idMahasiswa = Mahasiswa::select('id_mahasiswa')
                                  ->where('id_users', $userId)->first();
-         
          $idKelompok = DetailKelompok::join('kelompok','kelompok_detail.id_kelompok','kelompok.id_kelompok')
                                  ->select('kelompok_detail.id_kelompok', 'kelompok.nama_kelompok')
-                                 ->where('kelompok_detail.id_mahasiswa', $idMahasiswa->id_mahasiswa)->first();  
+                                 ->where('kelompok_detail.isDeleted', 0)
+                                 ->where('kelompok_detail.id_mahasiswa', $idMahasiswa->id_mahasiswa)->first();
          $kelompok = Kelompok::get();
         if(request()->ajax()){
             $data = [];
             if ($idKelompok){
             $data = DetailKelompok::join('kelompok','kelompok_detail.id_kelompok','kelompok.id_kelompok')
                                  ->select('kelompok.*')
+                                 ->where('kelompok_detail.isDeleted', 0)
                                  ->where('kelompok_detail.id_mahasiswa', $idMahasiswa->id_mahasiswa)->get();  
             }
             return datatables()->of($data)->addIndexColumn()
@@ -197,16 +190,14 @@ class KelompokController extends Controller
                     if ($kelompok !=null){
                     $disable = $kelompok->tahap != 'diproses'? "disabled" : " ";
                     $btn = '<a href="/mahasiswa/daftaranggota/'.$kelompok->id_kelompok.'" class="btn btn-info btn-sm '.$disable.'"><i class="fas fa-list"></i></a>';
-                   return $btn;
-                    }
+                   return $btn;}
                 return;
                 })
                 ->rawColumns(['action'])
                 ->addIndexColumn()
                 ->make(true);
         }
-        return view('mahasiswa.kelompok.indexkelompok', compact('kelompok'));
-    }
+        return view('mahasiswa.kelompok.indexkelompok', compact('kelompok'));}
     public function show($id)
     {
         //

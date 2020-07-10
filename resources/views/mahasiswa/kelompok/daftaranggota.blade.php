@@ -86,7 +86,7 @@ $(document).on('click', '.deleteAnggota', function(){
         type: "GET",
         headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}' },
         dataType: "json",
-        url: '/mahasiswa/daftaranggota/hapus/'+id_kelompok_detail,
+        url: '/mahasiswa/daftaranggota/hapu'+id_kelompok_detail,
         success: function (data) {
             $('#confirmModal').modal('hide');
             window.location.reload();
@@ -104,6 +104,8 @@ $(document).ready(function(){
       var dataTable = $('#daftaranggota').DataTable({
         processing: true,
         serverSide: true,
+        responsive: true,
+        autoWidth: false,
         language: {
             emptyTable: "Tidak ada anggota yang ditambahkan"
           },

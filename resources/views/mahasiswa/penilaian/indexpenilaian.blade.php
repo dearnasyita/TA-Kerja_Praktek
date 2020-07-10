@@ -54,15 +54,15 @@
 							<td>{{$no++}}</td>
 							<td>{{$anggotas->nim}}</td>
 							<td>{{$anggotas->nama}}</td>
-							<td>{{@App\Nilai::where('id_mahasiswa',$anggotas->id_mahasiswa)->where('id_aspek_penilaian',1)->first()->nilai}}</td>
-							<td>{{@App\Nilai::where('id_mahasiswa',$anggotas->id_mahasiswa)->where('id_aspek_penilaian',5)->first()->nilai}}</td>
-							<td>{{@App\Nilai::where('id_mahasiswa',$anggotas->id_mahasiswa)->where('id_aspek_penilaian',3)->first()->nilai}}</td>
-							<td>{{@App\Nilai::where('id_mahasiswa',$anggotas->id_mahasiswa)->where('id_aspek_penilaian',2)->first()->nilai}}</td>
-							<td>{{@App\Nilai::where('id_mahasiswa',$anggotas->id_mahasiswa)->where('id_aspek_penilaian',6)->first()->nilai}}</td>
-							<td>{{@App\Nilai::where('id_mahasiswa',$anggotas->id_mahasiswa)->where('id_aspek_penilaian',7)->first()->nilai}}</td>
+							<td>{{@App\Nilai::where('id_mahasiswa',$anggotas->id_mahasiswa)->where('created_by','=', $userId)->where('id_aspek_penilaian',1)->first()->nilai}}</td>
+							<td>{{@App\Nilai::where('id_mahasiswa',$anggotas->id_mahasiswa)->where('created_by','=', $userId)->where('id_aspek_penilaian',5)->first()->nilai}}</td>
+							<td>{{@App\Nilai::where('id_mahasiswa',$anggotas->id_mahasiswa)->where('created_by','=', $userId)->where('id_aspek_penilaian',3)->first()->nilai}}</td>
+							<td>{{@App\Nilai::where('id_mahasiswa',$anggotas->id_mahasiswa)->where('created_by','=', $userId)->where('id_aspek_penilaian',2)->first()->nilai}}</td>
+							<td>{{@App\Nilai::where('id_mahasiswa',$anggotas->id_mahasiswa)->where('created_by','=', $userId)->where('id_aspek_penilaian',6)->first()->nilai}}</td>
+							<td>{{@App\Nilai::where('id_mahasiswa',$anggotas->id_mahasiswa)->where('created_by','=', $userId)->where('id_aspek_penilaian',7)->first()->nilai}}</td>
 							@php
-							$total = @App\Nilai::where('id_mahasiswa',$anggotas->id_mahasiswa)->where('id_aspek_penilaian',1)->first()->nilai + @App\Nilai::where('id_mahasiswa',$anggotas->id_mahasiswa)->where('id_aspek_penilaian',5)->first()->nilai + @App\Nilai::where('id_mahasiswa',$anggotas->id_mahasiswa)->where('id_aspek_penilaian',3)->first()->nilai + @App\Nilai::where('id_mahasiswa',$anggotas->id_mahasiswa)->where('id_aspek_penilaian',2)->first()->nilai + @App\Nilai::where('id_mahasiswa',$anggotas->id_mahasiswa)->where('id_aspek_penilaian',7)->first()->nilai + @App\Nilai::where('id_mahasiswa',$anggotas->id_mahasiswa)->where('id_aspek_penilaian',6)->first()->nilai;
-							$edit = @App\Nilai::where('id_mahasiswa',$anggotas->id_mahasiswa)->count();
+							$total = @App\Nilai::where('id_mahasiswa',$anggotas->id_mahasiswa)->where('id_aspek_penilaian',1)->where('created_by','=', $userId)->first()->nilai + @App\Nilai::where('id_mahasiswa',$anggotas->id_mahasiswa)->where('id_aspek_penilaian',5)->where('created_by','=', $userId)->first()->nilai + @App\Nilai::where('id_mahasiswa',$anggotas->id_mahasiswa)->where('id_aspek_penilaian',3)->where('created_by','=', $userId)->first()->nilai + @App\Nilai::where('id_mahasiswa',$anggotas->id_mahasiswa)->where('id_aspek_penilaian',2)->where('created_by','=', $userId)->first()->nilai + @App\Nilai::where('id_mahasiswa',$anggotas->id_mahasiswa)->where('id_aspek_penilaian',7)->where('created_by','=', $userId)->first()->nilai + @App\Nilai::where('id_mahasiswa',$anggotas->id_mahasiswa)->where('id_aspek_penilaian',6)->where('created_by','=', $userId)->first()->nilai;
+							$edit = @App\Nilai::where('id_mahasiswa',$anggotas->id_mahasiswa)->where('created_by','=', $userId)->count();
 							@endphp
 							<td>{{$total}}</td>
 							<td>
@@ -95,10 +95,10 @@
 $(function () {
 	$("#nilai").DataTable({
 		
-      "responsive": true,
-	  "autoWidth": false,
-	  "language": {
-      "emptyTable": "Anda belum memiliki kelompok"
+      responsive: true,
+	  autoWidth: false,
+	  language: {
+      emptyTable: "Anda belum memiliki kelompok"
     }
 	})
 });

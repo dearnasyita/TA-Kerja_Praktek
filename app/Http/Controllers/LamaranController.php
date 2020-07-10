@@ -26,6 +26,7 @@ class LamaranController extends Controller
 
         $idKelompok = DetailKelompok::select('kelompok_detail.id_kelompok')
             ->where('kelompok_detail.id_mahasiswa', $idMahasiswa->id_mahasiswa)
+            ->where('kelompok_detail.isDeleted', '=', '0')
             ->orderBy('id_kelompok', 'desc')
             ->first();
         

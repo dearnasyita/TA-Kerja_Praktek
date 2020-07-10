@@ -86,7 +86,7 @@
           
         </div>
         <div class="info" style="padding: 5px 5px 5px 15px">
-          <a class="d-block" id="usernames"></a>
+          <a class="d-block " id="usernames"></a>
         </div>
       </div>
       <!-- Sidebar Menu -->
@@ -187,15 +187,6 @@
               </li>
             </ul>
           </li>
-          <!-- <li class="nav-item has-treeview" >
-            <a href="/calendar" class="nav-link">
-              <i class="nav-icon far fa-calendar-alt"></i>
-              <p>
-                To Do List
-              </p>
-            </a>
-          </li> -->
-         
           <li class="nav-item">
             <a href="/mahasiswa/pengumuman" class="nav-link">
               <i class="nav-icon fas fa-bell"></i>

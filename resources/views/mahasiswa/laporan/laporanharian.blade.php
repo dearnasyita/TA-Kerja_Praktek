@@ -34,7 +34,7 @@
             </div>
             @else
             <div class="col-sm-12">
-              <button  class="btn btn-success float-right btn-sm disabled" ><i class="fas fa-plus"></i> Tambah </button> <br><br>
+              <a href="" class="btn btn-success float-right btn-sm disabled" ><i class="fas fa-plus"></i> Tambah </a> <br><br>
             </div>
             @endif
             <div class="form-group table-responsive p-0" >
@@ -80,7 +80,7 @@
                             <div class="form-group row">
                               <label for="waktu_mulai" class="col-sm-3 col-form-label">Waktu Mulai <font color="red">*</font></label>
                               <div class="col-sm-9">
-                                <input type="time" class="form-control" id="waktu_mulai" name="waktu_mulai" required>
+                                <input type="time" class="form-control" id="waktu_mulai" name="waktu_mulai">
                               </div>
                             </div>
                             </br>
@@ -94,7 +94,7 @@
                           <div class="form-group row">
                             <label for="kegiatan" class="col-sm-3 col-form-label">Kegiatan <font color="red">*</font></label>
                             <div class="col-sm-9">
-                              <textarea type="text" class="form-control" id="kegiatan" name="kegiatan" required></textarea>
+                              <textarea type="text" class="form-control" id="kegiatan" name="kegiatan" ></textarea>
                             </div>
                           </div>
                           </br>     
@@ -184,9 +184,17 @@ $(document).ready(function(){
           toastr.success(data.message);
           location.reload();
         },
-        error: function(error){
-          console.log(error);
-        }
+        error: function(xhr, status, error) 
+          {
+            $.each(xhr.responseJSON.errors, function (key, item) 
+            {
+              // $("#errors").append("<li class='alert alert-danger'>"+item+"</li>")
+              toastr.options.closeButton = true;
+              toastr.options.closeMethod = 'fadeOut';
+              toastr.options.closeDuration = 200;
+              toastr.error(item);
+            });
+          }
     });
   });
 
@@ -198,6 +206,8 @@ $(document).ready(function(){
           },
         processing: true,
         serverSide: true,
+        responsive: true,
+        autoWidth: false,
         ajax:{
           url: "/mahasiswa/laporanharian",
          

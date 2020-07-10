@@ -34,9 +34,9 @@
                             {{ csrf_field() }}
                                 <div class="card-body">  
                                     <div class="form-group row">
-                                        <label for="judul" class="col-sm-3 col-form-label">Judul Laporan <font color="red">*</font></label>
+                                        <label for="judul" class="col-sm-3 col-form-label ">Judul Laporan <font color="red">*</font></label>
                                         <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="judul" name="judul" required>
+                                        <input type="text" class="form-control" id="judul" name="judul" >
                                         </div>
                                     </div>
                                     <div class="form-group row">
@@ -45,7 +45,7 @@
                                           <div class="row">
                                             <div class="col-md-6">     
                                               <div class="form-group">
-    					                                  <input type="file" class="form-control" required id="berkas" name="berkas">
+    					                                  <input type="file" class="form-control"  id="berkas" name="berkas">
                                                 <p class="text-muted"><small><i>*Dalam bentuk PDF, max ukuran 10 MB</i></small></p>
 					                                    </div>
                                             </div>

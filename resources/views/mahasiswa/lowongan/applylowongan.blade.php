@@ -32,14 +32,14 @@
                         <div class="card card-primary card-outline">
                           <div class="card-body box-profile">
                             <div class="text-center">
-                            <img  class="img-circle" style="object-fit: cover; object-position: top;" width="100px" height="100px"  src="{{ asset('uploads/fotoprofile/'.$lowongan->instansi->foto) }}" onerror="this.onerror=null;this.src='../../dist/img/iconuser.png';" >
+                            <img  class="img" style="object-fit: cover;" width="100px" height="100px"  src="{{ asset('uploads/fotoprofile/'.$lowongan->instansi->foto) }}" onerror="this.onerror=null;this.src='../../dist/img/iconuser.png';" >
 
                             </div>
                             </br>
 
 
                             <div class="proyek-title text-center"><h4><b>{{ $lowongan->instansi->nama }}</b></h4> 
-                            <h5 class="text-center "><i class="fa fa-home" style="color: #000000"></i> {{ $lowongan->instansi->alamat }}</h5>
+                            <p class="text-center "><i class="fa fa-home" style="color: #000000"></i> {{ $lowongan->instansi->alamat }}</p>
                             </br>
                             </br>
                             <p class="text-left"><b>Posisi :</b>{{ $lowongan->pekerjaan}}</p>
@@ -62,7 +62,7 @@
                             @else
                             <div class="d-flex flex-row justify-content-center">
                               <span>
-                              <a class="btn btn-block btn-success btn-lg disabled">Daftar</a>
+                              <a href="#" class="btn btn-block btn-success btn-lg disabled">Daftar</a>
                               </span>
                             </div>
                             @endif

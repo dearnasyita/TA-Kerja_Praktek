@@ -12,6 +12,7 @@ use App\Http\Controllers\Controller;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Barryvdh\Debugbar\Facade as Debugbar;
+use Illuminate\Contracts\Validation\Validator;
 
 class LaporanHarianController extends Controller
 {
@@ -96,6 +97,11 @@ class LaporanHarianController extends Controller
             'waktu_mulai' => 'required',
             'waktu_selesai' => 'required',
             'kegiatan' => 'required',
+        ],[
+            'tanggal.required' => 'Tanggal tidak boleh kosong !',
+            'waktu_mulai.required' => 'Waktu mulai tidak boleh kosong !',
+            'waktu_selesai.required' => 'Waktu selesai tidak boleh kosong !',
+            'kegiatan.required' => 'Kegiatan tidak boleh kosong !'
         ]);
 
         $data = LaporanHarian::create([
@@ -149,6 +155,12 @@ class LaporanHarianController extends Controller
             'waktu_mulai' => 'required',
             'waktu_selesai' => 'required',
             'kegiatan' => 'required',
+        ],
+        [
+            'tanggal.required' => 'Tanggal tidak boleh kosong !',
+            'waktu_mulai.required' => 'Waktu mulai tidak boleh kosong !',
+            'waktu_selesai.required' => 'Waktu selesai tidak boleh kosong !',
+            'kegiatan.required' => 'Kegiatan tidak boleh kosong !'
         ]);
         $data = LaporanHarian::findOrFail($id_buku_harian);
         $data -> update([

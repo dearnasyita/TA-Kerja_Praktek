@@ -69,7 +69,8 @@ $(document).ready(function(){
           },
         processing: true,
         serverSide: true,
-        
+        responsive: true,
+        autoWidth: false,
         
         ajax:{
           url: "/mahasiswa/indexkelompok",
