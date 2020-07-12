@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Auth;
 use Illuminate\Http\Request;
-
 use Auth;
 use Session;
 use App\Http\Controllers\Controller;

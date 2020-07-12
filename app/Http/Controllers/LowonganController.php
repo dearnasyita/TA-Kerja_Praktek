@@ -117,12 +117,12 @@ class LowonganController extends Controller
          
          $idKelompok = DetailKelompok::select('kelompok_detail.id_kelompok')
                                      ->where('kelompok_detail.id_mahasiswa', $idMahasiswa->id_mahasiswa)
-                                     ->orderBy('id_kelompok','desc')->first(); 
+                                     ->where('kelompok_detail.isDeleted', '=', '0')
+                                     ->orderBy('kelompok_detail.id_kelompok_detail','desc')->first(); 
 
-        $status = DetailKelompok::select('kelompok_detail.status_keanggotaan')
-        ->where('kelompok_detail.id_mahasiswa', $idMahasiswa->id_mahasiswa)
-        ->orderBy('id_kelompok', 'desc')
-        ->first();
+        $statusKeanggotaan = @DetailKelompok::select('kelompok_detail.status_keanggotaan')
+                                     ->where('kelompok_detail.id_mahasiswa', $idMahasiswa->id_mahasiswa)
+                                     ->orderBy('id_kelompok', 'desc')->first();
         
         $statusUsulan = @Usulan::leftJoin('kelompok', 'usulan.id_kelompok', '=', 'kelompok.id_kelompok')
             ->select('usulan.status')
@@ -130,11 +130,11 @@ class LowonganController extends Controller
 
         $statusLamaran = @Lamaran::select('pelamar.status')->where('pelamar.id_kelompok', $idKelompok->id_kelompok)->first();
 
-
         $instansi = Instansi::get();
+        
         $datas = Periode::get();
         $lowongan = Lowongan::findOrFail($id_lowongan);
-        return view('mahasiswa.lowongan.applylowongan',compact('instansi','lowongan','datas','idKelompok','data','userId','status','statusUsulan','statusLamaran'));
+        return view('mahasiswa.lowongan.applylowongan',compact('instansi','lowongan','datas','idKelompok','data','userId','statusKeanggotaan','statusUsulan','statusLamaran'));
     }
 
     
@@ -146,7 +146,7 @@ class LowonganController extends Controller
             'created_by'=> $request->created_by,
         ]);
         $data->save();
-        return response()->json(['message' => 'Apply Lowongan successfully.']);
+        return response()->json(['message' => 'Berhasil mendaftar lowongan.']);
     }
 
     /**

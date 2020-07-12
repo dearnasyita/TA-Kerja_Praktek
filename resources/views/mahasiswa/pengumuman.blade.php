@@ -39,7 +39,7 @@
                   {{ str_limit ($datas->deskripsi, $limit = 70, $end = '... ') }}
                 </div>
                 <div class="timeline-footer ">
-                  <button type="button" class="btn btn-outline-secondary btn-xs detailbtn" id="{{ $datas->id_pengumuman }}"  >>Detail >>
+                  <button type="button" class="btn btn-outline-secondary btn-xs detailbtn" id="{{ $datas->id_pengumuman }}"> >>Detail<<
                   </button>
                 </div>
               </div> 

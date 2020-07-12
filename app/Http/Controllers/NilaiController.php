@@ -107,7 +107,7 @@ class NilaiController extends Controller
         
     }
 
-        return response()->json(['message' => 'Nilai added successfully.']);
+        return response()->json(['message' => 'Nilai berhasil ditambahkan.']);
     }
     /**
      * Update the specified resource in storage.

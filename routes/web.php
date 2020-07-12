@@ -39,7 +39,7 @@ Route::group(['middleware' => ['auth:web'], 'prefix' => 'mahasiswa'],
     Route::get('/profile', 'MahasiswaController@indexmahasiswa');
     Route::post('/profile/{id}', 'MahasiswaController@updateAvatar');
     Route::get('/editprofil/{id}', 'MahasiswaController@edit');
-    Route::put('/editprofil/{id_mahasiswa}', 'MahasiswaController@update');
+    // Route::put('/editprofil/{id_mahasiswa}', 'MahasiswaController@update');
     Route::get('/pengumuman', 'PengumumanController@indexmahasiswa');
     Route::get('/indexlowongan', 'LowonganController@indexmahasiswa');
     Route::get('/laporanharian', 'LaporanHarianController@index');
@@ -57,7 +57,7 @@ Route::group(['middleware' => ['auth:web'], 'prefix' => 'mahasiswa'],
     Route::get('/indexusulan', 'UsulanController@index');
     Route::get('/indexusulan/create', ['as' => 'usulan.create', 'uses' => 'UsulanController@create']);
     Route::get('/editusulan/{id}', 'UsulanController@edit');
-    // Route::delete('/indexusulan/{id}', ['as' => 'usulan.destroy', 'uses' => 'LaporanAkhirController@destroy']);
+    Route::delete('/indexusulan/{id}', ['as' => 'usulan.destroy', 'uses' => 'LaporanAkhirController@destroy']);
 
     Route::put('/editlaporanpkl/{id_laporan}', 'LaporanAkhirController@update');
     Route::get('/ubah_password', 'MahasiswaController@showchangePassword');
@@ -72,7 +72,7 @@ Route::group(['middleware' => ['auth:web'], 'prefix' => 'mahasiswa'],
 
     Route::get('/daftaranggota/{id}', 'DetailKelompokController@daftaranggota');
     
-    Route::get('/daftaranggota/hapus/{id}', 'DetailKelompokController@kick');
+    // Route::get('/daftaranggota/hapus/{id}', 'DetailKelompokController@kick');
 
     Route::get('/detailkelompok', 'DetailKelompokController@show');
     Route::get('/indexkelompok', 'KelompokController@riwayatkelompok');

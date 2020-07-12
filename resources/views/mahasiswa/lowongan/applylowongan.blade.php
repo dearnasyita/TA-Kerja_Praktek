@@ -53,7 +53,7 @@
                             <input type="hidden" class="form-control" id="id_kelompok" name="id_kelompok" value="{{ $idKelompok->id_kelompok}}" >
                             <input type="hidden" class="form-control" id="id_lowongan" name="id_lowongan" value="{{ $lowongan->id_lowongan}}" >
                             
-                            @if ($status!=null && $status->status_keanggotaan == 'Ketua' && ($statusUsulan==null || @$statusUsullan->status=="ditolak") && ($statusLamaran==null || @$statusLamaran->status=="ditolak"))
+                            @if ($statusKeanggotaan!=null && @$statusKeanggotaan->status_keanggotaan == 'Ketua' && ($statusUsulan==null || @$statusUsulan->status=="ditolak") && ($statusLamaran==null || @$statusLamaran->status=="ditolak"))
                             <div class="d-flex flex-row justify-content-center">
                               <span>
                               <button type="submit" class="btn btn-block btn-success btn-lg">Daftar</button>

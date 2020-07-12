@@ -59,15 +59,15 @@ class LaporanHarianController extends Controller
 
                 })
 
-    ->addColumn('action', function ($laporanharian){
-        $disable = $laporanharian->status == 'diperiksa'? "disabled" : " ";
-        $btn = '<a href="/mahasiswa/editlaporanharian/'.$laporanharian->id_buku_harian.'" class="btn btn-info btn-sm '.$disable.' "><i class="fas fa-edit"></i></a>';
-        $btn .= '&nbsp;&nbsp;';
-        return $btn;
-    })
-    ->rawColumns(['action'])
-    ->addIndexColumn()
-    ->make(true);
+                ->addColumn('action', function ($laporanharian){
+                    $disable = $laporanharian->status == 'diperiksa'? "disabled" : " ";
+                    $btn = '<a href="/mahasiswa/editlaporanharian/'.$laporanharian->id_buku_harian.'" class="btn btn-info btn-sm '.$disable.' "><i class="fas fa-edit"></i></a>';
+                    $btn .= '&nbsp;&nbsp;';
+                    return $btn;
+                })
+            ->rawColumns(['action'])
+            ->addIndexColumn()
+            ->make(true);
         }
         return view('mahasiswa.laporan.laporanharian', compact('laporanharian', 'idMahasiswa','userId','periode','status'));
     }

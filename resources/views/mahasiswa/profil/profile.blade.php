@@ -57,6 +57,9 @@
                                                     <b>NIM </b> <a class="float-right">{{ $mahasiswa->nim }}</a>
                                                 </li>
                                                 <li class="list-group-item">
+                                                    <b>Angkatan </b> <a class="float-right">{{ $mahasiswa->angkatan }}</a>
+                                                </li>
+                                                <li class="list-group-item">
                                                     <i class="nav-icon fas fa-users"></i> <a class="float-right">{{ $mahasiswa->nama }}</a>
                                                 </li>
                                                 <li class="list-group-item">
@@ -113,7 +116,7 @@
                         <div class="card-body ">
                             <div class="tab-content">
                                 <div class="card-body card-primary table-responsive p-0">
-                                    <table class="table no-border">
+                                    <table class="table no-border text-center">
                                         <tr>
                                             <th>NIM</th>
                                             <th>Nama Lengkap</th>

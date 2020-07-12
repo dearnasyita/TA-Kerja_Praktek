@@ -32,7 +32,7 @@ class MahasiswaController extends Controller
     {
         $mahasiswa = Auth::user()->mahasiswa()->leftJoin('users', 'mahasiswa.id_users', 'users.id_users')
                             ->leftJoin('roles', 'users.id_roles', 'roles.id_roles')
-                            ->select('mahasiswa.id_mahasiswa', 'mahasiswa.id_users', 'users.id_users', 'mahasiswa.nama', 'mahasiswa.foto','roles.id_roles', 'roles.roles', 'mahasiswa.no_hp', 'mahasiswa.email', 'mahasiswa.pengalaman', 'mahasiswa.kemampuan', 'mahasiswa.nim', 'mahasiswa.cv', 'mahasiswa.alamat')
+                            ->select('mahasiswa.id_mahasiswa', 'mahasiswa.id_users', 'users.id_users', 'mahasiswa.nama', 'mahasiswa.foto','roles.id_roles', 'roles.roles', 'mahasiswa.no_hp', 'mahasiswa.email', 'mahasiswa.pengalaman', 'mahasiswa.kemampuan', 'mahasiswa.nim', 'mahasiswa.cv', 'mahasiswa.alamat','mahasiswa.angkatan')
                             ->first();
         return view('mahasiswa.profil.profile', compact('mahasiswa'));
     }
@@ -60,27 +60,33 @@ class MahasiswaController extends Controller
         $this->validate($request, [
             'nama' => 'required|string|max:100',
             'nim' => 'required|string|max:100',
+            'angkatan' => 'required|string|max:4',
             'email' => 'required|string|max:100',
             'no_hp' => 'required|string|max:25',
             'alamat' => 'required|string|max:1000',
             'kemampuan' => 'required|string|max:1000',
             'pengalaman' => 'required|string|max:1000',
-            'cv' => 'mimes:doc,pdf,docx,zip',
-            'foto' => 'nullable|image|mimes:jpg,png,jpeg',
-            
+            'cv' => 'required|mimes:pdf|max:3000',
+            'foto' => 'required|mimes:jpg,png,jpeg|max:1024',  
         ],
-    
         [
-            'nama.required' => 'nama can not be empty !',
-            'nim.required' => 'nim can not be empty !',
-            'email.required' => 'email can not be empty !',
-            'no_hp.required' => 'no.hp can not be empty !',
-            'alamat.required' => 'alamat can not be empty !',
-            'alamat.max' => 'alamat is to long !',
-            'kemampuan.required' => 'kemampuan can not be empty !',
-            'kemampuan.max' => 'kemampuan is to long !',
-            'pengalaman.required' => 'pengalaman can not be empty !',
-            'pengalaman.max' => 'pengalaman is to long !',
+            'nama.required' => 'nama tidak boleh kosong !',
+            'nim.required' => 'nim tidak boleh kosong !',
+            'angkatan.required' => 'angkatan tidak boleh kosong !',
+            'email.required' => 'email tidak boleh kosong !',
+            'no_hp.required' => 'no.hp tidak boleh kosong !',
+            'alamat.required' => 'Alamat tidak boleh kosong !',
+            'alamat.max' => 'Alamat terlalu panjang !',
+            'kemampuan.required' => 'kemampuan tidak boleh kosong !',
+            'kemampuan.max' => 'kemampuan terlalu panjang !',
+            'pengalaman.required' => 'pengalaman tidak boleh kosong !',
+            'pengalaman.max' => 'Pengalaman terlalu panjang !',
+            'foto.max' => 'File terlalu besar !',
+            'foto.required' => 'File tidak boleh kosong !',
+            'foto.mimes' => 'File harus jpg,png,jpeg',
+            'cv.required' => 'File tidak boleh kosong !',
+            'cv.max' => 'File terlalu besar !',
+            'cv.mimes' => 'File harus pdf'
         ]);
 
         $cv= null;
@@ -100,6 +106,7 @@ class MahasiswaController extends Controller
         $data = Mahasiswa::create([
             'nama' => $request->nama,
             'nim' => $request->nim,
+            'angkatan' => $request->angkatan,
             'email' => $request->email,
             'no_hp' => $request->no_hp,
             'alamat' => $request->alamat,
@@ -148,17 +155,30 @@ class MahasiswaController extends Controller
      */
     public function update(Request $request, $id_mahasiswa)
     {
-
         $this->validate($request, [
                 'nama' => 'required|string|max:100',
                 'nim' => 'required|string|max:100',
+                'angkatan' => 'required|string|max:4',
                 'email' => 'required|string|max:100',
                 'no_hp' => 'required|string|max:25',
                 'alamat' => 'required|string|max:1000',
                 'kemampuan' => 'required|string|max:1000',
                 'pengalaman' => 'required|string|max:1000',
-                'cv' => 'mimes:doc,pdf,docx,zip',
-                
+                'cv' => 'mimes:pdf|max:3000',
+        ],[
+            'nama.required' => 'nama tidak boleh kosong !',
+            'nim.required' => 'nim tidak boleh kosong !',
+            'angkatan.required' => 'angkatan tidak boleh kosong !',
+            'email.required' => 'email tidak boleh kosong !',
+            'no_hp.required' => 'no.hp tidak boleh kosong !',
+            'alamat.required' => 'alamat tidak boleh kosong !',
+            'alamat.max' => 'alamat terlalu panjang !',
+            'kemampuan.required' => 'kemampuan tidak boleh kosong !',
+            'kemampuan.max' => 'kemampuan terlalu panjang !',
+            'pengalaman.required' => 'pengalaman tidak boleh kosong !',
+            'pengalaman.max' => 'pengalaman terlalu panjang !',
+            'cv.max' => 'File terlalu besar !',
+            'cv.mimes' => 'File harus pdf'
         ]);
         
         $data = Mahasiswa::findOrFail($id_mahasiswa);
@@ -172,9 +192,11 @@ class MahasiswaController extends Controller
             $files->move(public_path('uploads/cv'),$cv);
         }
 
+        
         $data -> update([
             'nama' => $request->nama,
             'nim' => $request->nim,
+            'angkatan' => $request->angkatan,
             'email' => $request->email,
             'no_hp' => $request->no_hp,
             'alamat' => $request->alamat,
@@ -183,17 +205,19 @@ class MahasiswaController extends Controller
             'cv' => $cv
         ]);
         $data->save();
-       
-        return redirect('mahasiswa/profile');
+        return response()->json(['message' => 'Berhasil diubah !']);
+        
     }
 
 
     
     public function updateAvatar(Request $request, $id_mahasiswa){
         $this->validate($request, [
-            'foto' => 'nullable|image|mimes:jpg,png,jpeg|max:1024',
+            'foto' => 'required|mimes:jpg,png,jpeg|max:1024',
         ],[
-            
+            'foto.max' => 'File terlalu besar !',
+            'foto.required' => 'File tidak boleh kosong !',
+            'foto.mimes' => 'File harus jpg,png,jpeg'
         ]);
 
         $data = Mahasiswa::findOrFail($id_mahasiswa);
@@ -211,7 +235,7 @@ class MahasiswaController extends Controller
             'foto' => $foto
         ]);
         return response()->json(['data' => $data,
-            'message' => 'Photo updated successfully.']);
+            'message' => 'Foto profil berhasil diubah.']);
     }
 
     public function showchangePassword(){

@@ -49,6 +49,7 @@ class UsulanController extends Controller
             ->orderBy('id_kelompok', 'desc')->first();
             
         $usulan = Usulan::get();
+
         $statusUsulan = @Usulan::leftJoin('kelompok', 'usulan.id_kelompok', '=', 'kelompok.id_kelompok')
         ->select('usulan.status')
         ->where('usulan.id_kelompok', $idKelompok->id_kelompok)->first();
@@ -57,34 +58,37 @@ class UsulanController extends Controller
         ->where('pelamar.id_kelompok', $idKelompok->id_kelompok)->first();
 
         if (request()->ajax()) {
-
             $data = [];
             if ($idKelompok){
                 $data = Usulan::leftJoin('kelompok', 'usulan.id_kelompok', '=', 'kelompok.id_kelompok')
                     ->select('usulan.*')
                     ->where('usulan.id_kelompok', $idKelompok->id_kelompok)->get();
             }
-
+            if(@$statusKeanggotaan->status_keanggotaan == 'Ketua'){
             return datatables()->of($data)->addIndexColumn()
                 ->addColumn('action', function ($data) {
                     if($data != null ){
-                        $disable = $data->status == 'diterima' ? "disabled" : " ";
+                        $disable = $data->status != 'diproses' ? "disabled" : " ";
                         $btn = '<a href="/mahasiswa/editusulan/' . $data->id_usulan . '" class="btn btn-info btn-sm ' . $disable . '"><i class="fas fa-edit"></i></a>';
                         $btn .= '&nbsp;&nbsp;';
                         $btn .= '<button type="button" name="show" id="' . $data->id_usulan . '" class="btn btn-warning btn-sm surat" ><i class="fas fa-eye"></i></button>';
-                        return $btn;
-                    }
-                    // else{
-                    //     $btn = '<a href="#" class="btn btn-info btn-sm disabled"><i class="fas fa-edit"></i></a>';
-                    //     $btn .= '&nbsp;&nbsp;';
-                    //     $btn .= '<button type="button" name="show" id="' . $data->id_usulan . '" class="btn btn-warning btn-sm surat" ><i class="fas fa-eye"></i></button>';
-                    //     return $btn;
-                    // }
-                return;
-            })
+                        return $btn; }
+                return;})
             ->rawColumns(['action'])
             ->addIndexColumn()
-            ->make(true);
+            ->make(true);}
+            else{
+            return datatables()->of($data)->addIndexColumn()
+            ->addColumn('action', function ($data) {
+                if($data != null ){
+                    $btn = '<a href="" class="btn btn-info btn-sm disabled"><i class="fas fa-edit"></i></a>';
+                    $btn .= '&nbsp;&nbsp;';
+                    $btn .= '<button type="button" name="show" id="' . $data->id_usulan . '" class="btn btn-warning btn-sm surat" ><i class="fas fa-eye"></i></button>';
+                    return $btn; }
+            return; })
+            ->rawColumns(['action'])
+            ->addIndexColumn()
+            ->make(true);}
         }
         return view('mahasiswa.usulan.indexusulan', compact('usulan', 'statusKeanggotaan', 'statusUsulan', 'statusLamaran'));
     }
@@ -123,10 +127,10 @@ class UsulanController extends Controller
         $this->validate($request, [
             'nama_instansi' => 'required|string|max:100',
             'website_instansi' => 'required|string|max:100',
-            'alamat_instansi' => 'required|string|max:100',
+            'alamat_instansi' => 'required|string|max:1000',
             'jobdesk' => 'required|string|max:100',
             'deskripsi_instansi' => 'required|string|max:1000',
-            'surat' => 'required|mimes:doc,pdf,docx,zip|max:3072',
+            'surat' => 'required|mimes:pdf|max:3072',
         ],
         [
             'nama_instansi.required' => 'Nama instansi tidak boleh kosong !',
@@ -140,7 +144,8 @@ class UsulanController extends Controller
             'deskripsi_instansi.required' => 'Deskripsi instansi tidak boleh kosong !',
             'deskripsi_instansi.max' => 'Deskripsi instansi terlalu panjang !',
             'surat.required' => 'File tidak boleh kosong !',
-            'surat.max' => 'File terlalu besar !'
+            'surat.max' => 'File terlalu besar !',
+            'surat.mimes' => 'File harus pdf'
         ]);
 
         $surat = null;
@@ -162,7 +167,7 @@ class UsulanController extends Controller
         ]);
 
         $data->save();
-        return response()->json(['message' => 'Usulan added successfully.']);
+        return response()->json(['message' => 'Usulan berhasil ditambahkan.']);
     }
 
     /**
@@ -213,10 +218,10 @@ class UsulanController extends Controller
         [
             'nama_instansi' => 'required|string|max:100',
             'website_instansi' => 'required|string|max:100',
-            'alamat_instansi' => 'required|string|max:100',
+            'alamat_instansi' => 'required|string|max:1000',
             'jobdesk' => 'required|string|max:100',
             'deskripsi_instansi' => 'required|string|max:100',
-            'surat' => 'mimes:doc,pdf,docx,zip|max:3072',
+            'surat' => 'mimes:pdf|max:3072',
         ],
         [
             'nama_instansi.required' => 'Nama instansi tidak boleh kosong !',
@@ -229,7 +234,8 @@ class UsulanController extends Controller
             'jobdesk.max' => 'Jobdesk terlalu panjang !',
             'deskripsi_instansi.required' => 'Deskripsi instansi tidak boleh kosong !',
             'deskripsi_instansi.max' => 'Deskripsi instansi terlalu panjang !',
-            'surat.max' => 'File terlalu besar !'
+            'surat.max' => 'File terlalu besar !',
+            'surat.mimes' => 'File harus pdf'
         ]);
 
         $data = Usulan::findOrFail($id_usulan);

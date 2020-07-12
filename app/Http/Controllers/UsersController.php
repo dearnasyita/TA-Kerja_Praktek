@@ -43,7 +43,7 @@ class UsersController extends Controller
             return redirect('/mahasiswa/index')->with('sukses','Anda Berhasil Login');
            
     	}
-    	return redirect('admin/login')->with('error','Akun Belum Terdaftar');
+    	return redirect('admin/login')->with('error','Username atau password tidak sesuai');
     }
 
 
@@ -86,7 +86,7 @@ class UsersController extends Controller
             'password' => 'required|min:6|max:191|confirmed'
         ],
         [
-            'password.required' => 'Password tidak bolek kosong ! ',
+            'password.required' => 'Password tidak boleh kosong ! ',
             'password.min' => 'Password terlalu pendek ! ',
             'password.max' => 'Password terlalu panjang ! ',
             'password.confirmed' => 'Confirm password tidak sama !',
@@ -95,7 +95,7 @@ class UsersController extends Controller
         $data = User::where ('id_users',$id_users)->first();
         $data->password = Hash::make($request->password);
         $data->save();
-        return response()->json(['message'=>'Password updated successfully.']);
+        return response()->json(['message'=>'Password berhasil diubah.']);
     }
 
     /**

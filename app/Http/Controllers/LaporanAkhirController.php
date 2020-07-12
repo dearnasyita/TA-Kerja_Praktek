@@ -47,6 +47,9 @@ class LaporanAkhirController extends Controller
 
         $laporanakhir = LaporanAkhir::get();
 
+        $statusKeanggotaan = @DetailKelompok::select('kelompok_detail.status_keanggotaan')
+        ->where('kelompok_detail.id_mahasiswa', $idMahasiswa->id_mahasiswa)
+        ->orderBy('id_kelompok', 'desc')->first();
 
         if(request()->ajax()){
             $data = [];
@@ -55,11 +58,13 @@ class LaporanAkhirController extends Controller
                 ->select('laporan.*')
                 ->where('laporan.id_kelompok', $idKelompok->id_kelompok)->get();
             }
+            if(@$statusKeanggotaan->status_keanggotaan == 'Ketua'){
                 return datatables()->of($data)->addIndexColumn()
                 
                 ->editColumn('created_at', function ($laporanakhir) {
                     return Carbon::parse($laporanakhir->created_at)->translatedFormat('d F Y');
                 })
+                
                 ->addColumn('action', function ($laporanakhir){
                     if ($laporanakhir !=null){
                         $btn = '<a href="/mahasiswa/editlaporanpkl/'.$laporanakhir->id_laporan.'" class="btn btn-info btn-sm"><i class="fas fa-edit"></i></a>';
@@ -67,20 +72,32 @@ class LaporanAkhirController extends Controller
                         $btn .='<button type="button" name="show" id="'.$laporanakhir->id_laporan.'" class="btn btn-warning btn-sm detaillaporanakhir" ><i class="fas fa-eye"></i></button>';
                         return $btn;
                     }
-                    // else{
-                    //     $btn = '<a href="#" class="btn btn-info btn-sm disabled"><i class="fas fa-edit"></i></a>';
-                    //     $btn .= '&nbsp;&nbsp;';
-                    //     $btn .='<button type="button" name="show" id="'.$laporanakhir->id_laporan.'" class="btn btn-warning btn-sm detaillaporanakhir" ><i class="fas fa-eye"></i></button>';
-                    //     return $btn;
-                    // }
 
                     return;
                 })
                 ->rawColumns(['action'])
                 ->addIndexColumn()
                 ->make(true);
+            }else{
+                return datatables()->of($data)->addIndexColumn()
+                ->editColumn('created_at', function ($laporanakhir) {
+                    return Carbon::parse($laporanakhir->created_at)->translatedFormat('d F Y');
+                })
+                ->addColumn('action', function ($laporanakhir){
+                    if ($laporanakhir !=null){
+                        $btn = '<a href="/mahasiswa/editlaporanpkl/'.$laporanakhir->id_laporan.'" class="btn btn-info btn-sm disabled"><i class="fas fa-edit"></i></a>';
+                        $btn .= '&nbsp;&nbsp;';
+                        $btn .='<button type="button" name="show" id="'.$laporanakhir->id_laporan.'" class="btn btn-warning btn-sm detaillaporanakhir" ><i class="fas fa-eye"></i></button>';
+                        return $btn;
+                    }
+                 return;
+                })
+                ->rawColumns(['action'])
+                ->addIndexColumn()
+                ->make(true);
+                }
         }
-        return view('mahasiswa.laporan.laporanpkl', compact('laporanakhir','status','statusLaporan'));
+        return view('mahasiswa.laporan.laporanpkl', compact('laporanakhir','status','statusLaporan','statusKeanggotaan'));
     }
 
     
@@ -112,16 +129,16 @@ class LaporanAkhirController extends Controller
      */
     public function store(Request $request)
     {
-        
         $this->validate($request, [
             'judul' => 'required|string|max:100',
-            'berkas' => 'required|mimes:doc,pdf,docx,zip|max:10240',
+            'berkas' => 'required|mimes:pdf|max:10240',
             
         ],
         [
             'judul.required' => 'Judul tidak boleh kosong !',
             'judul.max' => 'Judul terlalu panjang !',
             'berkas.max' => 'File terlalu besar !',
+            'berkas.mimes' => 'File harus pdf',
             'berkas.required' => 'Berkas tidak boleh kosong !'
             ]);
 
@@ -140,8 +157,7 @@ class LaporanAkhirController extends Controller
         ]);
 
         $data->save();
-        return response()->json(['message' => 'Laporan Akhir added successfully.']);
-    
+        return response()->json(['message' => 'Laporan Akhir berhasil ditambahkan.']);
     }
     
     /**
@@ -186,15 +202,20 @@ class LaporanAkhirController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id_laporan)
-        {$this->validate($request, [
+    
+        {
+            $this->validate($request, [
             'judul' => 'required|string|max:100',
-            'berkas' => 'mimes:doc,pdf,docx,zip|max:10240',
+            'berkas' => 'mimes:pdf|max:10000',
         ],
         [
             'judul.required' => 'Judul tidak boleh kosong !',
             'judul.max' => 'Judul terlalu panjang !',
+            'berkas.max' => 'File terlalu besar!',
+            'berkas.mimes' => 'File harus pdf'
         ]);
 
+            
         $data = LaporanAkhir::findOrFail($id_laporan);
         $berkas = $data->berkas;
 
@@ -204,13 +225,10 @@ class LaporanAkhirController extends Controller
             $berkas=str_slug('Laporan Kelompok-'.$request->id_kelompok) . '.' . $files->getClientOriginalExtension();
             $files->move(public_path('uploads/laporanakhir'),$berkas);
         }
-
-        
         $data -> update([
             'judul' => $request->judul,
             'berkas' => $berkas,
             'id_kelompok' => $request->id_kelompok,
-            
         ]);
         $data->save();
         return response()->json(['message' => 'Berhasil diubah !']);

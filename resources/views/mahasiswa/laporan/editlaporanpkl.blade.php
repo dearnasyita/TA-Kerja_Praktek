@@ -50,7 +50,7 @@
                                         <div class="row">
                                             <div class="col-md-6">     
                                             <div class="form-group">
-    					                    <input type="file" class="form-control required" id="berkas" name="berkas" value="{{ $data->berkas }}">
+    					                    <input type="file" class="form-control required" id="berkas" name="berkas">
                                             <p class="text-muted"><small><i>*Dalam bentuk PDF, max ukuran 10 MB</i></small></p>
 					                        </div>
                                             </div>
@@ -105,7 +105,6 @@ $(document).ready(function(){
         var id = $('#id_laporan').val();
         // var judul = $('#judul').val();
         // var berkas = $('#berkas').val();
-        
         
         $.ajax({
             type: "POST",

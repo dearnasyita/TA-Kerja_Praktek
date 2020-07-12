@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 
 use App\User;
-// use session;
 use App\Admin;
 use Carbon\Carbon;
 use App\Periode;
@@ -45,10 +44,6 @@ class dashboardController extends Controller
     {
         
         $user= Auth::user()->load('mahasiswa');
-
-
-        
-       
         return response()->json([
             'user' =>$user,
             'message' => "succes",

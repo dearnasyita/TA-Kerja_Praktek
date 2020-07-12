@@ -29,6 +29,10 @@
               <div class="col-sm-12">
                 <a  href="/mahasiswa/buatkelompok" class="btn btn-success float-right btn-sm" ><i class="fas fa-plus"></i> Tambah Anggota</a> <br><br>
               </div>
+            @else
+              <div class="col-sm-12">
+                <a  href="" class="btn btn-success float-right btn-sm disabled" ><i class="fas fa-plus"></i> Tambah Anggota</a> <br><br>
+              </div>
             @endif
               <div class="form-group table-responsive p-0" >
                 <table id="daftaranggota" class="table table-bordered table-striped text-center" style="width:100%">
@@ -86,7 +90,7 @@ $(document).on('click', '.deleteAnggota', function(){
         type: "GET",
         headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}' },
         dataType: "json",
-        url: '/mahasiswa/daftaranggota/hapu'+id_kelompok_detail,
+        url: '/api/mahasiswa/daftaranggota/hapus/'+id_kelompok_detail,
         success: function (data) {
             $('#confirmModal').modal('hide');
             window.location.reload();

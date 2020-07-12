@@ -143,7 +143,7 @@ class KelompokController extends Controller
         ]);
 
         $data->save();
-        return response()->json(['message' => 'Kelompok added successfully.']);
+        return response()->json(['message' => 'Kelompok berhasil ditambahkan.']);
     }
 
     public function addAnggota(Request $request){
@@ -155,7 +155,7 @@ class KelompokController extends Controller
             'status_join' => 'diinvite',
             'created_by' => $request->created_by,
         ]);
-        return response()->json(['message' => 'Anggota added successfully.']);
+        return response()->json(['message' => 'Anggota berhasil ditambahkan.']);
     }
 
 

@@ -30,7 +30,7 @@
                 <div class="container">
                     <div class="row justify-content-center">
                         <div class="col-8">
-                        <form id="editusulan" enctype="multipart/form-datta">
+                        <form id="editusulan" enctype="multipart/form-data">
                             {{ csrf_field() }}
                             <!-- <input type="hidden" name="id_usulan" id="id_usulan" value="{{ $data->id_usulan }}"> -->
                                 <div class="card-body">   
@@ -72,7 +72,7 @@
                                     </div>
 
                                     <div class="form-group row">
-                                        <label for="surat" class="col-sm-3 col-form-label">Surat Pemberitahuan<font color="red">*</font></label>
+                                        <label for="surat" class="col-sm-3 col-form-label">Surat Pemberitahuan</label>
                                         <div class="col-sm-9">
                                         <input type="file" class="form-control required" id="surat" name="surat" value="{{$data->surat}}">
                                           <p class="text-muted"><small><i>*Dalam format PDF. Max ukuran 3 MB</i></small></p>

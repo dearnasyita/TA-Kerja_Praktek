@@ -46,28 +46,9 @@ class LamaranController extends Controller
             ->addIndexColumn()
             ->make(true);
         }
-        return view('mahasiswa.lowongan.lamaran', compact('usulan'));
+        return view('mahasiswa.lowongan.lamaran', compact('lamaran'));
     }
 
-    
-    // public function index()
-    // {
-    //     return view('mahasiswa.lowongan.lamaran');
-    // }
-
-    // public function ajax(){
-    //     $auth=auth()->user()->id_users;
-    //     $id_mahasiswa=Mahasiswa::where('id_users',$auth)->first()->id_mahasiswa;
-    //     $id_kelompok=DetailKelompok::where('id_mahasiswa',$id_mahasiswa)->first()->id_kelompok;
-
-    //     $data['data'] = Lamaran::where('id_kelompok',$id_kelompok)
-    //                     ->join('lowongan','lowongan.id_lowongan','pelamar.id_lowongan')
-    //                     ->join('instansi', 'lowongan.id_instansi', 'instansi.id_instansi')
-    //                     ->select('pelamar.status','instansi.nama','lowongan.pekerjaan')
-    //                   ->get();
-    //     return response()->json($data);
-
-    // }
     
     /**
      * Show the form for creating a new resource.
