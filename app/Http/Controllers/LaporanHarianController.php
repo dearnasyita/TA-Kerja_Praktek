@@ -43,6 +43,7 @@ class LaporanHarianController extends Controller
         if(request()->ajax()){
                 $data = LaporanHarian::join('mahasiswa', 'buku_harian.id_mahasiswa', '=', 'mahasiswa.id_mahasiswa')
                 ->select('buku_harian.*')
+                ->orderBy('created_at','DESC')
                 ->where('buku_harian.id_mahasiswa', $idMahasiswa->id_mahasiswa)->get();
 
             return datatables()->of($data)->addIndexColumn()
