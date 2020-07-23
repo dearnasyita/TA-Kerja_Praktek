@@ -92,7 +92,7 @@ class KelompokController extends Controller
         ->select('mahasiswa.id_mahasiswa', 'mahasiswa.nama', 'mahasiswa.nim')
         ->get();
 
-        return view('mahasiswa.kelompok.buatkelompok', compact('userId','data','mahasiswa_tersedia', 'idMahasiswa', 'idKelompok'));
+        return view('mahasiswa.kelompok.buatkelompok', compact('userId','mahasiswa_tersedia', 'idMahasiswa', 'idKelompok'));
     }
 
 

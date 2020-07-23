@@ -110,7 +110,7 @@ $(document).ready(function(){
             type: "POST",
             headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}' },
             url: "/api/mahasiswa/editlaporanpkl/"+id+"/edit",
-            dataType: "json",
+            dataType: "JSON",
             contentType: false,
             cache: false,
             processData: false,

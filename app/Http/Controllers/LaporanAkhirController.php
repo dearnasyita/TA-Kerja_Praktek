@@ -118,7 +118,7 @@ class LaporanAkhirController extends Controller
                                     ->where('kelompok_detail.id_mahasiswa', $idMahasiswa->id_mahasiswa)
                                     ->orderBy('kelompok_detail.id_kelompok_detail','desc')->first();
         
-        return view('mahasiswa.laporan.tambahlaporanpkl',compact('datas', 'idKelompok','userId'));
+        return view('mahasiswa.laporan.tambahlaporanpkl',compact( 'idKelompok','userId'));
     }
 
     /**
@@ -145,7 +145,7 @@ class LaporanAkhirController extends Controller
         $berkas= null;
         if($request->hasFile('berkas')){
             $files=$request->file('berkas');
-            $berkas=str_slug('Laporan Kelompok-'.$request->id_kelompok) . '.' . $files->getClientOriginalExtension();
+            $berkas=str_slug('Laporan Kelompok-'.$request->id_kelompok) ."-" .time() . '.' . $files->getClientOriginalExtension();
             $files->move(public_path('uploads/laporanakhir'),$berkas);
         }
 
@@ -222,7 +222,7 @@ class LaporanAkhirController extends Controller
         if ($request->hasFile('berkas')) {
             !empty($berkas) ? File::delete(public_path('uploads/laporanakhir' . $berkas)):null;
             $files=$request->file('berkas');
-            $berkas=str_slug('Laporan Kelompok-'.$request->id_kelompok) . '.' . $files->getClientOriginalExtension();
+            $berkas=str_slug('Laporan Kelompok-'.$request->id_kelompok)  ."-" .time(). '.' . $files->getClientOriginalExtension();
             $files->move(public_path('uploads/laporanakhir'),$berkas);
         }
         $data -> update([

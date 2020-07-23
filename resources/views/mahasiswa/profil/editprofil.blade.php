@@ -49,7 +49,7 @@
 				<div class="card-body">
 					<div class="card-body card-primary  table-responsive p-0"></br>
 						<div class="row ">
-							<div class="col-12">
+							<!-- <div class="col-12">
 								<div class="row">
 									<div class="col-md-6">
 										<div class="form-group text-center">
@@ -64,7 +64,7 @@
 										</div>
 									</div>
 								</div>
-							</div>
+							</div> -->
 							
 							<div class="col-12">
 								<div class="row">
@@ -93,7 +93,7 @@
 					
 						</table><br/>
 
-						<strong><i class="fas fa-pencil-alt mr-1"></i> Alamat</strong>
+						<strong><i class="fas fa-home mr-1"></i> Alamat</strong>
 						<div class="row">
 							<div class="col-md-12">
 								<div class="form-group">

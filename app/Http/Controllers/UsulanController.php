@@ -151,7 +151,7 @@ class UsulanController extends Controller
         $surat = null;
         if ($request->hasFile('surat')) {
             $files = $request->file('surat');
-            $surat = str_slug('Kelompok-'.$request->id_kelompok) . '.' . $files->getClientOriginalExtension();
+            $surat = str_slug('Kelompok-'.$request->id_kelompok) ."-" .time() . '.' . $files->getClientOriginalExtension();
             $files->move(public_path('uploads/suratpersetujuan'), $surat);
         }
         $data = Usulan::create([
@@ -244,7 +244,7 @@ class UsulanController extends Controller
             !empty($surat) ? File::delete(public_path('uploads/surat' . $surat)) : null;
 
             $files = $request->file('surat');
-            $surat = str_slug('Kelompok-'.$request->id_kelompok) . '.' . $files->getClientOriginalExtension();
+            $surat = str_slug('Kelompok-'.$request->id_kelompok) ."-" .time() . '.' . $files->getClientOriginalExtension();
             $files->move(public_path('uploads/suratpersetujuan'), $surat);
         }
 

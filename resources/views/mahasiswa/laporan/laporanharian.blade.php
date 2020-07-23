@@ -28,10 +28,14 @@
           </div>
           
           <div class="card-body">
+          @if (@$status->status=="magang")
             <div class="col-sm-12">
               <button  class="btn btn-success float-right btn-sm tambahbtn" ><i class="fas fa-plus"></i> Tambah </button> <br><br>
             </div>
-            
+          @else
+              <a href="javascript:void(0);" class="btn btn-success float-right btn-sm disabled"><i
+                      class="fas fa-plus"></i> Tambah </a> <br><br>
+          @endif
             <div class="form-group table-responsive p-0" >
               <table id="databukuharian" class="table table-bordered table-striped text-center">
                 <thead>

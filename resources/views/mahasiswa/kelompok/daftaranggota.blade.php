@@ -23,15 +23,12 @@
           <div class="card-header">
             <h1 class="card-title"><b>Kelompok {{$idKelompok->nama_kelompok}}</b></h1>
           </div>
-          <div class="box-body">  <br>
+          
+          <div class="box-body"> 
             <div class="card-body">
             @if ( @$statusKeanggotaan->status_keanggotaan == 'Ketua')
               <div class="col-sm-12">
                 <a  href="/mahasiswa/buatkelompok" class="btn btn-success float-right btn-sm" ><i class="fas fa-plus"></i> Tambah Anggota</a> <br><br>
-              </div>
-            @else
-              <div class="col-sm-12">
-                <a  href="" class="btn btn-success float-right btn-sm disabled" ><i class="fas fa-plus"></i> Tambah Anggota</a> <br><br>
               </div>
             @endif
               <div class="form-group table-responsive p-0" >

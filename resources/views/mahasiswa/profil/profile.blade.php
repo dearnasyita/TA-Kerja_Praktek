@@ -60,11 +60,17 @@
                                                     <b>Angkatan </b> <a class="float-right">{{ $mahasiswa->angkatan }}</a>
                                                 </li>
                                                 <li class="list-group-item">
-                                                    <i class="nav-icon fas fa-users"></i> <a class="float-right">{{ $mahasiswa->nama }}</a>
+                                                    <b>Nama </b> <a class="float-right">{{ $mahasiswa->nama }}</a>
                                                 </li>
                                                 <li class="list-group-item">
                                                     <b>CV  </b> 
                                                     <a data-toggle="modal" data-target="#modal-default" class="btn btn-warning float-right text-center py-0 align-middle show_cv" ><i class="nav-icon fas fa-eye"></i></a>
+                                                    
+                                                    @if ($mahasiswa->cv !=null)
+                                                    <li class="list-group-item " style="border:none;">
+                                                        <a href="javascript:void(0)" data-id="{{  $mahasiswa->id_mahasiswa }}" class="text deleteCV float-right "><i class="fas fa-trash"></i> &nbsp; Hapus CV</a>
+                                                    </li>
+                                                    @endif
                                                 </li>
                                             </ul>
                                         </div>
@@ -74,7 +80,26 @@
                         </div>
                     </form>
 
-                    
+                    <div id="confirmModal" class="modal fade" role="dialog">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Confirmation</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <h6 align="center" style="margin:0;">Anda yakin ingin menghapus data ini?</h6>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" name="ok_button" id="ok_button" class="btn btn-danger">OK</button>
+                                <button type="reset" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="modal fade" id="modal-cv">
                         <div class="modal-dialog modal-lg">
                             <div class="modal-content">
@@ -95,7 +120,7 @@
                                     @endif
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                       <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                                     </div>
                                     
                                 </div>
@@ -139,7 +164,7 @@
                                 </div>
                                 </br>
                                 <div class="box-footer float-right">
-                                    <a href="/mahasiswa/editprofil/{{$mahasiswa->id_mahasiswa}}" class="btn btn-info">Edit</a>                                                    
+                                    <a href="/mahasiswa/editprofil/{{$mahasiswa->id_mahasiswa}}"  class="btn btn-info">Edit</a>                                                    
                                 </div>
                             </div>
                         </div>
@@ -194,6 +219,30 @@
     $(document).on('click', '.editAvatar', function(){
       $('#modal-editAvatar').modal('show');
     });
+
+
+    $(document).on('click', '.deleteCV', function(){
+    id_kelompok_detail = $(this).attr('id');
+        $('#confirmModal').modal('show');
+    });
+
+  $('#ok_button').click(function(){
+    $.ajax({
+        type: "GET",
+        headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+        dataType: "json",
+        url: '/api/mahasiswa/profile/hapuscv/'+id_mahasiswa,
+        success: function (data) {
+            $('#confirmModal').modal('hide');
+            window.location.reload();
+            toastr.options.closeButton = true;
+            toastr.options.closeMethod = 'fadeOut';
+            toastr.options.closeDuration = 100;
+            toastr.success(data.message);
+        }
+    });
+  });
+
 
     $('#updateAvatar').on('submit', function(e){
         e.preventDefault();

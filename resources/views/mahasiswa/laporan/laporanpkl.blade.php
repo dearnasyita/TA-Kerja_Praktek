@@ -32,9 +32,6 @@
                 @if ($status!=null && $status->status_keanggotaan == 'Ketua' && $statusLaporan==null )
                       <a href="{{route('laporan.create')}}" class="btn btn-success float-right btn-sm"><i
                               class="fas fa-plus"></i> Tambah </a> <br><br>
-                  @else
-                      <a href="javascript:void(0);" class="btn btn-success float-right btn-sm disabled"><i
-                              class="fas fa-plus"></i> Tambah </a> <br><br>
                   @endif
                 </div>
 
@@ -42,7 +39,7 @@
                   <table id="datalaporanakhir" class="table table-bordered table-striped text-center">
                     <thead>
                       <tr class="text-center">
-                        <th>No</th>
+                        
                         <th>Judul</th>
                         <th>Tanggal Upload</th>
                         <th>Aksi</th>
@@ -119,19 +116,22 @@
         language: {
             emptyTable: "Belum ada laporan akhir yang ditambahkan"
           },
+        lengthChange: false,
+        searching: false,
         processing: true,
         serverSide: true,
         responsive: true,
         autoWidth: false,
+        info: false,
+        ordering: false,
+        paging: false,
         ajax:{
           url: "/mahasiswa/laporanpkl",
          
         },
         
         columns:[
-          { data: 'DT_RowIndex', 
-          name:'DT_RowIndex'
-          },
+          
           {
             data:'judul',
             name:'judul',

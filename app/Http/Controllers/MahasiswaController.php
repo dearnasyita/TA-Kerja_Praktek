@@ -58,8 +58,8 @@ class MahasiswaController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'nama' => 'required|string|max:100',
-            'nim' => 'required|string|max:100',
+            // 'nama' => 'required|string|max:100',
+            // 'nim' => 'required|string|max:100',
             'angkatan' => 'required|string|max:4',
             'email' => 'required|string|max:100',
             'no_hp' => 'required|string|max:25',
@@ -70,8 +70,8 @@ class MahasiswaController extends Controller
             'foto' => 'required|mimes:jpg,png,jpeg|max:1024',  
         ],
         [
-            'nama.required' => 'nama tidak boleh kosong !',
-            'nim.required' => 'nim tidak boleh kosong !',
+            // 'nama.required' => 'nama tidak boleh kosong !',
+            // 'nim.required' => 'nim tidak boleh kosong !',
             'angkatan.required' => 'angkatan tidak boleh kosong !',
             'email.required' => 'email tidak boleh kosong !',
             'no_hp.required' => 'no.hp tidak boleh kosong !',
@@ -92,20 +92,20 @@ class MahasiswaController extends Controller
         $cv= null;
         if($request->hasFile('cv')){
             $files=$request->file('cv');
-            $cv=str_slug($request->nim) . '.' . $files->getClientOriginalExtension();
+            $cv=str_slug($request->nim) ."-" .time(). '.' . $files->getClientOriginalExtension();
             $files->move(public_path('uploads/cv'),$cv);
         }
 
         $foto = null;
         if($request->hasFile('foto')){
             $files=$request->file('foto');
-            $foto=str_slug($request->nim) .  '.' . $files->getClientOriginalExtension();
+            $foto=str_slug($request->nim) ."-" .time() .  '.' . $files->getClientOriginalExtension();
             $files->move(public_path('uploads/fotoprofile'),$foto);
         }
 
         $data = Mahasiswa::create([
-            'nama' => $request->nama,
-            'nim' => $request->nim,
+            // 'nama' => $request->nama,
+            // 'nim' => $request->nim,
             'angkatan' => $request->angkatan,
             'email' => $request->email,
             'no_hp' => $request->no_hp,
@@ -156,8 +156,8 @@ class MahasiswaController extends Controller
     public function update(Request $request, $id_mahasiswa)
     {
         $this->validate($request, [
-                'nama' => 'required|string|max:100',
-                'nim' => 'required|string|max:100',
+                // 'nama' => 'required|string|max:100',
+                // 'nim' => 'required|string|max:100',
                 'angkatan' => 'required|string|max:4',
                 'email' => 'required|string|max:100',
                 'no_hp' => 'required|string|max:25',
@@ -166,8 +166,8 @@ class MahasiswaController extends Controller
                 'pengalaman' => 'required|string|max:1000',
                 'cv' => 'mimes:pdf|max:3000',
         ],[
-            'nama.required' => 'nama tidak boleh kosong !',
-            'nim.required' => 'nim tidak boleh kosong !',
+            // 'nama.required' => 'nama tidak boleh kosong !',
+            // 'nim.required' => 'nim tidak boleh kosong !',
             'angkatan.required' => 'angkatan tidak boleh kosong !',
             'email.required' => 'email tidak boleh kosong !',
             'no_hp.required' => 'no.hp tidak boleh kosong !',
@@ -188,14 +188,14 @@ class MahasiswaController extends Controller
             !empty($cv) ? File::delete(public_path('uploads/cv' . $cv)):null;
 
             $files=$request->file('cv');
-            $cv=str_slug($request->nim) . '.' . $files->getClientOriginalExtension();
+            $cv=str_slug($request->nim) ."-" .time() . '.' . $files->getClientOriginalExtension();
             $files->move(public_path('uploads/cv'),$cv);
         }
 
         
         $data -> update([
-            'nama' => $request->nama,
-            'nim' => $request->nim,
+            // 'nama' => $request->nama,
+            // 'nim' => $request->nim,
             'angkatan' => $request->angkatan,
             'email' => $request->email,
             'no_hp' => $request->no_hp,
@@ -228,7 +228,7 @@ class MahasiswaController extends Controller
 
             $files=$request->file('foto');
             $foto=$data->id_mahasiswa;
-            $foto=str_slug($data->nim) . '.' . $files->getClientOriginalExtension();
+            $foto=str_slug($data->nim) ."-" .time() . '.' . $files->getClientOriginalExtension();
             $files->move(public_path('uploads/fotoprofile/'),$foto);
         }
         $data->update([
@@ -243,7 +243,18 @@ class MahasiswaController extends Controller
         return view('mahasiswa.ubah_password', compact('user'));
     }
 
-    
+    public function hapusCV($id_mahasiswa){
+
+        $data = Mahasiswa::findOrFail($id_mahasiswa);
+        $cv = $data->cv;
+
+        $files=$request->file('cv');
+        $files->move(public_path('uploads/cv'),$cv);
+        $anggota->save();
+        return response()->json(['message' => 'CV berhasil dihapus.']);
+    }
+
+
     /**
      * Remove the specified resource from storage.
      *

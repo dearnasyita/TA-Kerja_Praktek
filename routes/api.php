@@ -49,6 +49,7 @@ Route::prefix('mahasiswa')->group(function () {
     Route::post('/kelompok/daftaranggota', 'DetailKelompokController@daftaranggota');
     Route::post('/kelompok/addanggota', 'KelompokController@addAnggota');
     Route::get('/daftaranggota/hapus/{id}', 'DetailKelompokController@kick');
+    Route::get('/profile/hapuscv/{id}', 'MahasiswaController@hapusCV');
 
 });
 

@@ -142,28 +142,21 @@
           </li>
 
           <li class="nav-item ">
-            <a  class="nav-link">
+            <a href="/mahasiswa/indexusulan" class="nav-link">
               <i class="fas fa-envelope-open-text nav-icon"></i>
               <p>
-                Pendaftaran
-                <i class="right fas fa-angle-left"></i>
+                Usulan Instansi
               </p>
             </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="/mahasiswa/indexusulan" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Usulan Instansi</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="/mahasiswa/indexlowongan" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Lowongan</p>
-                </a>
-              </li>
-            </ul>
           </li>
+
+          <li class="nav-item">
+            <a href="/mahasiswa/indexlowongan" class="nav-link">
+              <i class="fas fa-list nav-icon"></i>
+              <p>Lowongan</p>
+            </a>
+          </li>
+           
           <li class="nav-item ">
             <a class="nav-link">
               <i class="nav-icon fas fa-book"></i>
@@ -192,6 +185,7 @@
               <i class="nav-icon fas fa-bell"></i>
               <p>
                 Pengumuman
+                <span class="badge badge-info right">{{ App\Pengumuman::count() }}</span>
               </p>
             </a>
           </li>

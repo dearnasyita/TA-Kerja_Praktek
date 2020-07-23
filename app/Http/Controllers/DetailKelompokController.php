@@ -178,15 +178,16 @@ class DetailKelompokController extends Controller
         $statusKeanggotaan = @DetailKelompok::select('kelompok_detail.status_keanggotaan')
                                 ->where('kelompok_detail.id_mahasiswa', $idMahasiswa->id_mahasiswa)
                                 ->orderBy('id_kelompok', 'desc')->first(); 
-          
+        
         $anggota = Mahasiswa::get();
+        
         if(request()->ajax()){
             $data = [];
             if ($idKelompok){
             $data  = Mahasiswa::leftJoin('kelompok_detail', 'mahasiswa.id_mahasiswa', 'kelompok_detail.id_mahasiswa')
                     ->LeftJoin('kelompok', 'kelompok_detail.id_kelompok', 'kelompok.id_kelompok')
                     ->select('kelompok.id_kelompok', 'mahasiswa.id_mahasiswa', 'mahasiswa.nama',  'mahasiswa.nim','kelompok_detail.status_keanggotaan','kelompok_detail.id_kelompok_detail')
-                    ->where('kelompok_detail.status_keanggotaan','!=', 'Ketua')
+                    // ->where('kelompok_detail.status_keanggotaan','!=', 'Ketua')
                     ->where('kelompok_detail.status_join','!=', 'ditolak')
                     ->where('kelompok_detail.id_kelompok', $idKelompok->id_kelompok)
                     ->where('kelompok_detail.isDeleted', 0)
@@ -197,7 +198,8 @@ class DetailKelompokController extends Controller
                 return datatables()->of($data)->addIndexColumn()
                 ->addColumn('action', function ($data){
                     if($data != null){
-                    $btn = '<button type="button" name="delete" id="' . $data->id_kelompok_detail . '" class="btn btn-danger btn-sm deleteAnggota "><i class="fas fa-trash"></i></button>';
+                    $disable = $data->status_keanggotaan == 'Ketua'? "disabled" : " ";
+                    $btn = '<a  type="button" name="delete" id="' . $data->id_kelompok_detail . '" class="btn btn-danger btn-sm deleteAnggota '.$disable.' "><i class="fas fa-trash"></i></a>';
                    return $btn; 
                 }
                return;
@@ -220,7 +222,7 @@ class DetailKelompokController extends Controller
                 ->make(true);
                 }
             }
-        return view('mahasiswa.kelompok.daftaranggota', compact('anggota','idKelompok','statusKeanggotaan'));
+        return view('mahasiswa.kelompok.daftaranggota', compact('anggota','idKelompok','statusKeanggotaan','ketua'));
     }
     
     public function kick($id_kelompok_detail)
