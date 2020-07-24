@@ -245,12 +245,9 @@ class MahasiswaController extends Controller
 
     public function hapusCV($id_mahasiswa){
 
-        $data = Mahasiswa::findOrFail($id_mahasiswa);
-        $cv = $data->cv;
-
-        $files=$request->file('cv');
-        $files->move(public_path('uploads/cv'),$cv);
-        $anggota->save();
+        $mhs = Mahasiswa::findOrFail($id_mahasiswa);
+        unlink(public_path('uploads/cv/'.$mhs->cv));
+        $mhs->delete();
         return response()->json(['message' => 'CV berhasil dihapus.']);
     }
 
